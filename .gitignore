@@ -52,6 +52,7 @@
 *.tar
 *.xz
 *.zst
+*.dump
 Module.symvers
 dtbs-list
 modules.order
