@@ -358,6 +358,13 @@ SYM_CODE_START(_start_kernel)
 	tail .Lsecondary_start_common
 #endif /* CONFIG_RISCV_BOOT_SPINWAIT */
 
+	li a7, 0x4442434E
+	li a6, 0x00
+	li a0, 12
+	lla a1, debug_string
+	li a2, 0
+	ecall
+
 SYM_CODE_END(_start_kernel)
 
 #ifdef CONFIG_RISCV_M_MODE
@@ -461,3 +468,7 @@ SYM_CODE_START_LOCAL(reset_regs)
 	ret
 SYM_CODE_END(reset_regs)
 #endif /* CONFIG_RISCV_M_MODE */
+
+        .section .rodata
+debug_string:
+        .string "Hello world\n"
