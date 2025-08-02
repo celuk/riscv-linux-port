@@ -34,8 +34,6 @@
 #include <asm/sparsemem.h>
 #include <asm/tlbflush.h>
 
-#include <asm/sbi.h>
-
 #include "../kernel/head.h"
 
 u64 new_vmalloc[NR_CPUS / sizeof(u64) + 1];
@@ -173,8 +171,6 @@ static void print_vm_layout(void) { }
 
 void __init arch_mm_preinit(void)
 {
-	sbi_console_putchar('4');
-	sbi_console_putchar('\n');
 	bool swiotlb = max_pfn > PFN_DOWN(dma32_phys_limit);
 #ifdef CONFIG_FLATMEM
 	BUG_ON(!mem_map);
@@ -206,8 +202,6 @@ static phys_addr_t memory_limit;
 
 static int __init early_mem(char *p)
 {
-	sbi_console_putchar('5');
-	sbi_console_putchar('\n');
 	u64 size;
 
 	if (!p)
@@ -224,8 +218,6 @@ early_param("mem", early_mem);
 
 static void __init setup_bootmem(void)
 {
-	sbi_console_putchar('6');
-	sbi_console_putchar('\n');
 	phys_addr_t vmlinux_end = __pa_symbol(&_end);
 	phys_addr_t max_mapped_addr;
 	phys_addr_t phys_ram_end, vmlinux_start;
@@ -402,8 +394,6 @@ DECLARE_VM_GET_PAGE_PROT
 
 void __set_fixmap(enum fixed_addresses idx, phys_addr_t phys, pgprot_t prot)
 {
-	sbi_console_putchar('7');
-	sbi_console_putchar('\n');
 	unsigned long addr = __fix_to_virt(idx);
 	pte_t *ptep;
 
@@ -862,8 +852,6 @@ static void __init set_mmap_rnd_bits_max(void)
  */
 static __init void set_satp_mode(uintptr_t dtb_pa)
 {
-	sbi_console_putchar('8');
-	sbi_console_putchar('\n');
 	u64 identity_satp, hw_satp;
 	uintptr_t set_satp_mode_pmd = ((unsigned long)set_satp_mode) & PMD_MASK;
 	u64 satp_mode_cmdline = __pi_set_satp_mode_from_cmdline(dtb_pa);
@@ -944,8 +932,6 @@ retry:
 static void __init create_kernel_page_table(pgd_t *pgdir,
 					    __always_unused bool early)
 {
-	sbi_console_putchar('9');
-	sbi_console_putchar('\n');
 	uintptr_t va, start_va, end_va;
 
 	/* Map the flash resident part */
@@ -966,8 +952,6 @@ static void __init create_kernel_page_table(pgd_t *pgdir,
 #else
 static void __init create_kernel_page_table(pgd_t *pgdir, bool early)
 {
-	sbi_console_putchar('0');
-	sbi_console_putchar('\n');
 	uintptr_t va, end_va;
 
 	end_va = kernel_map.virt_addr + kernel_map.size;
@@ -1097,8 +1081,6 @@ unsigned long kaslr_offset(void)
 
 asmlinkage void __init setup_vm(uintptr_t dtb_pa)
 {
-	sbi_console_putchar('1');
-	sbi_console_putchar('\n');
 	pmd_t __maybe_unused fix_bmap_spmd, fix_bmap_epmd;
 
 #ifdef CONFIG_RANDOMIZE_BASE
@@ -1386,8 +1368,6 @@ static void __init setup_vm_final(void)
 #else
 asmlinkage void __init setup_vm(uintptr_t dtb_pa)
 {
-	sbi_console_putchar('2');
-	sbi_console_putchar('\n');
 	dtb_early_va = (void *)dtb_pa;
 	dtb_early_pa = dtb_pa;
 
@@ -1431,8 +1411,6 @@ static void __init arch_reserve_crashkernel(void)
 
 void __init paging_init(void)
 {
-	sbi_console_putchar('3');
-	sbi_console_putchar('\n');
 	setup_bootmem();
 	setup_vm_final();
 
