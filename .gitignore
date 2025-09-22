@@ -53,6 +53,7 @@
 *.xz
 *.zst
 *.dump
+*.vmem
 Module.symvers
 dtbs-list
 modules.order
